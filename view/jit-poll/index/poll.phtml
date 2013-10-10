@@ -1,0 +1,52 @@
+<?php
+// module/JitPoll/view/jit-poll/poll/poll.phtml:
+
+$title = 'Poll Detail View';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<div class="grid_4">
+    <div class="da-panel collapsible">
+        <div class="da-panel-header">
+            <span class="da-panel-title">
+                <img src="images/icons/color/blog.png" alt="" />
+                <?php echo $this->escapeHtml($title); ?>
+            </span>
+
+        </div>
+        <div class="da-panel-toolbar top">
+            <ul>
+                <li><a title="Edit" href="<?php echo $this->url('jitpoll', array('action' => 'edit', 'id' => $poll->poll_id));
+            ?>"><img src="/admin-theme/images/icons/color/pencil.png" /></a></li>
+                <li><a title="Delete" class="deleteConfirm" href="<?php echo $this->url('jitpoll', array('action' => 'ajax-delete', 'id' => $poll->poll_id));
+            ?>"><img src="/admin-theme/images/icons/color/cross.png" /></a></li>
+            </ul>
+        </div>      
+        <div class="da-panel-content">
+            <table class="da-table da-detail-view">
+                <tbody>
+                    <tr>
+                        <td>Poll Title</td>
+                        <td><?php echo $poll->poll_title; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Poll Options</td>
+                        <td>
+                            <?php  
+                            if(!empty($pollOptions)):
+                                foreach($pollOptions as $option){
+                                    echo '<p>Option: &nbsp'.$option->po_option.'</p>';
+                                }
+                            endif;
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>User is allowed to add own answer</td>
+                        <td><?php echo $poll->poll_user_answer_option; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

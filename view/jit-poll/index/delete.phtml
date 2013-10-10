@@ -1,0 +1,32 @@
+<?php // module/JitPoll/view/jit-poll/poll/delete.phtml ?>
+<h1><?php echo $this->escapeHtml('Delete'); ?></h1>
+
+<div class="grid_4">
+  <div class="da-panel collapsible">
+    <div class="da-panel-header">
+      <span class="da-panel-title">
+        <img src="/admin-theme/images/icons/black/16/cross_small.png" alt="" />
+        Delete Category
+      </span>
+
+    </div>
+    <div class="da-panel-content">
+      <p style="padding:15px 0px 0px 15px;">Are you sure that you want to delete
+        <b>'<?php echo $this->escapeHtml($poll->poll_title); ?>' !!!</b>
+      </p>
+      <?php
+      $url = $this->url('jitpoll', array(
+          'action' => 'delete',
+          'id' => $poll_id,
+      ));
+      ?>
+      <form action="<?php echo $url; ?>" method="post">
+        <div>
+          <input type="hidden" name="id" value="<?php echo (int) $poll->poll_id; ?>" />
+          <input type="submit" name="del" class="da-button red add-button" value="Yes" />
+          <input type="submit" name="del" class="da-button blue add-button" value="No" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

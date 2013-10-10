@@ -1,0 +1,79 @@
+<?php
+// module/JitPoll/view/jit-poll/poll/edit.phtml:
+
+$title = 'Edit Poll';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<!-- Chosen Plugin -->
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/admin-theme/plugins/chosen/chosen.jquery.js"></script>
+<link rel="stylesheet" href="<?php echo $this->basePath(); ?>/admin-theme/plugins/chosen/chosen.css" media="screen" />
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/admin-theme/js/unb/unb.validation.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/admin-theme/js/unb/unb.form.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/admin-theme/js/unb/unb.ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#add-more-option").css('cursor','pointer');
+        $("#add-more-option").click(function(){
+            $("#poll-options").append('<br /><br />Option:&nbsp;<input type="text" name="poll_options[]" value="" />');
+        });
+    });
+</script>
+<div class="grid_2">
+    <div class="da-panel">
+        <div class="da-panel-header">
+            <span class="da-panel-title">
+                <img src="/admin-theme/images/icons/black/32/plus.png" alt="" />
+                Edit Poll
+            </span>
+        </div>
+        <div class="da-panel-content">
+            <form id="poll-form" class="da-form" action="" method="post">
+                <div class="da-form-block">
+                    <div class="da-form-row">
+                        <label>Poll<span class="required">*</span></label>
+                        <div class="da-form-item large">
+                            <input type="hidden" name="poll_id" value="<?php echo $poll->poll_id; ?>" />
+                            <input type="text" name="poll_title" value="<?php echo $poll->poll_title; ?>" />
+                        </div>
+                    </div>                   
+                    <div class="da-form-row">
+                        <label>Poll Options</label>                        
+                        <div class="da-form-item large" id="poll-options">
+                            <span class="formNote"><strong id="add-more-option">Add More</strong></span>
+                            <?php if(!empty($polloptions)){ foreach($polloptions as $polloption) { ?>
+                            Option: &nbsp;<input type="text" name="poll_options[<?php echo $polloption->po_id; ?>]" value="<?php echo $polloption->po_option; ?>" />
+                            <?php } } ?> 
+                        </div>
+                    </div>
+                    <div class="da-form-row">
+                        <label>Allow user to add own answer</label>
+                        <div class="da-form-item large">
+                            <input <?php echo ($poll->poll_user_answer_option=='Yes')?'checked="checked"':''; ?> type="checkbox" name="poll_user_answer_option" value="Yes" /> Yes
+                        </div>
+                    </div>
+                    <div class="da-form-row">
+                        <label>Poll Publish Time<span class="required">*</span></label>
+                        <div class="da-form-col-3-8">
+                            Start: <input id="poll-start-datetimepicker" type="text" name="poll_start" value="<?php echo $poll->poll_start; ?>" />
+                            end: <input id="poll-end-datetimepicker" type="text" name="poll_end" value="<?php echo $poll->poll_end; ?>" />
+                        </div>
+                    </div>
+                    <div class="da-form-row">
+                        <label>Poll Status<span class="required">*</span></label>
+                        <div class="da-form-item large">
+                            <input <?php echo ($poll->poll_status=='Active')?'checked="checked"':''; ?> type="radio" name="poll_status" value="Active" /> Active &nbsp;
+                            <input <?php echo ($poll->poll_status=='InActive')?'checked="checked"':''; ?> type="radio" name="poll_status" value="InActive" /> InActive
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="da-form-row">
+                        <input type="reset" value="Reset" class="da-button blue left" />
+                        <input type="submit" value="Update" class="da-button red" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

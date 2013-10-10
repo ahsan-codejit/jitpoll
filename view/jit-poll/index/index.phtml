@@ -1,0 +1,98 @@
+<?php
+// module/JitPoll/view/jit-poll/poll/index.phtml:
+//$title = 'Polls';
+//$this->headTitle($title);
+?>
+<link href="<?php echo $this->basePath(); ?>/admin-theme/js/plugins/confirm/bootstrap-combined.min.css" rel="stylesheet">
+<script src="<?php echo $this->basePath(); ?>/admin-theme/js/plugins/confirm/jquery.confirm.js"></script>
+<script src="<?php echo $this->basePath(); ?>/admin-theme/js/plugins/confirm/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/admin-theme/js/plugins/confirm/run_prettify.js"></script>
+<script type="text/javascript">
+  
+  $(function() {
+    $(".deleteConfirm").confirm({
+      text: "This is very dangerous, you shouldn't do it! Are you very sure?",
+      confirm: function(button) {
+        
+      },
+      cancel: function(button) {
+
+      },
+      confirmButton: "Yes I am",
+      cancelButton: "No",
+      post: true
+    });
+
+  });
+  
+</script>
+
+<h1><?php echo $this->escapeHtml('Poll'); ?></h1>
+
+<a class="da-button red add-button" href="<?php echo $this->url('jitpoll', array('action' => 'add')); ?>">Add new poll</a>
+
+<div class="grid_4">
+  <div class="da-panel collapsible">
+    <div class="da-panel-header">
+      <span class="da-panel-title">
+        <img src="/admin-theme/images/icons/black/16/list.png" alt="" />
+        Category List
+      </span>
+
+    </div>
+    <div class="da-panel-content">
+      <table class="da-table">
+        <thead>
+          <tr>
+            <th class="column-checkbox"><input type="checkbox" /></th>
+            <th>Title</th>
+            <th>Created By</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+            <th>Created On</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($polls as $poll) : ?>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td><a href="<?php echo $this->url('jitpoll',array('action'=>'poll','id'=>$poll->poll_id)); ?>"><?php echo $this->escapeHtml($poll->poll_title); ?></a></td>
+              <td><?php echo $this->escapeHtml($this->get_user($poll->poll_createdby)); ?></td>
+              <td><?php echo $this->escapeHtml($poll->poll_start); ?></td>
+              <td><?php echo $this->escapeHtml($poll->poll_end); ?></td>
+              <td><?php echo $this->escapeHtml($poll->poll_status); ?></td>
+              <td><?php echo $this->escapeHtml($poll->poll_created); ?></td>
+              <td>
+                <a title="Edit" href="<?php echo $this->url('jitpoll', array('action' => 'edit', 'id' => $poll->poll_id));
+            ?>"><img src="/admin-theme/images/icons/color/pencil.png" /></a>
+                <a title="Delete" class="deleteConfirm" href="<?php echo $this->url('jitpoll', array('action' => 'ajax-delete', 'id' => $poll->poll_id));
+            ?>"><img src="/admin-theme/images/icons/color/cross.png" /></a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+          <tr>
+            <td colspan="7">
+              <?php
+              // add at the end of the file after the table
+              echo $this->paginationControl(
+                      // the paginator object
+                      $polls,
+                      // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+                      'sliding',
+                      // the partial to use to render the control
+                      array('partial/paginator.phtml', 'Poll'),
+                      // the route to link to when a user clicks a control link
+                      array(
+                  'route' => 'jitpoll'
+                      )
+              );
+              ?>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
